@@ -36,7 +36,8 @@ jobs:
         shell: bash
         run: |
           KEYSTORE_PASSWORD="$(openssl rand -hex 24)"
-          KEY_PASSWORD="$(openssl rand -hex 24)"
+          KEY_PASSWORD="$KEYSTORE_PASSWORD"
+          echo "::add-mask::$KEYSTORE_PASSWORD"
           keytool -genkeypair -v \
             -keystore "$RUNNER_TEMP/elenga-school-release.jks" \
             -storepass "$KEYSTORE_PASSWORD" \

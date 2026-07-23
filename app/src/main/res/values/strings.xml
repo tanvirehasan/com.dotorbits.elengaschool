@@ -3,4 +3,7 @@
     <string name="offline_title">No internet connection</string>
     <string name="offline_message">Please check your connection and try again.</string>
     <string name="retry">Retry</string>
+    <string name="welcome_to">WELCOME TO</string>
+    <string name="school_name">ELENGA MULTIMEDIA SCHOOL</string>
+    <string name="school_motto">Knowledge • Skill • Success</string>
 </resources>

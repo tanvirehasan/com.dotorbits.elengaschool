@@ -29,14 +29,35 @@ jobs:
         run: |
           mkdir -p app/src/main/res/drawable
           base64 --decode branding/school-logo.base64 > app/src/main/res/drawable/school_logo.png
+          base64 --decode branding/school-playground.base64 > app/src/main/res/drawable/school_playground.jpg
 
-      - name: Build APK
-        run: gradle assembleDebug
+      - name: Create isolated release signing key
+        id: signing
+        shell: bash
+        run: |
+          KEYSTORE_PASSWORD="$(openssl rand -hex 24)"
+          KEY_PASSWORD="$(openssl rand -hex 24)"
+          keytool -genkeypair -v \
+            -keystore "$RUNNER_TEMP/elenga-school-release.jks" \
+            -storepass "$KEYSTORE_PASSWORD" \
+            -keypass "$KEY_PASSWORD" \
+            -alias elenga_school \
+            -keyalg RSA -keysize 4096 -validity 10000 \
+            -dname "CN=Elenga Multimedia School, OU=Mobile App, O=Dotorbits, L=Elenga, ST=Tangail, C=BD"
+          {
+            echo "ANDROID_KEYSTORE_PATH=$RUNNER_TEMP/elenga-school-release.jks"
+            echo "ANDROID_KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD"
+            echo "ANDROID_KEY_ALIAS=elenga_school"
+            echo "ANDROID_KEY_PASSWORD=$KEY_PASSWORD"
+          } >> "$GITHUB_ENV"
 
-      - name: Prepare APK
+      - name: Build signed release APK
+        run: gradle assembleRelease
+
+      - name: Prepare release APK
         run: |
           mkdir -p release
-          cp app/build/outputs/apk/debug/app-debug.apk release/Elenga-Multimedia-School.apk
+          cp app/build/outputs/apk/release/app-release.apk release/Elenga-Multimedia-School.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4

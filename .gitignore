@@ -1,0 +1,12 @@
+*.iml
+.gradle/
+.idea/
+local.properties
+app/build/
+build/
+app/src/main/res/drawable/school_logo.png
+app/src/main/res/mipmap-hdpi/ic_launcher.png
+app/src/main/res/mipmap-mdpi/ic_launcher.png
+app/src/main/res/mipmap-xhdpi/ic_launcher.png
+app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
